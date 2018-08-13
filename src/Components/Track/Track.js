@@ -25,10 +25,6 @@ class Track extends React.Component {
     this.props.onRemove(this.props.track);
   }
 
-  updatePlaylistName(name) {
-
-  }
-
   render() {
     return (
       <div className="Track">

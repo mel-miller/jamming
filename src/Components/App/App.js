@@ -39,6 +39,10 @@ class App extends React.Component {
     this.setState({playlistTracks: updatedPlaylist});
   }
 
+  updatePlaylistName(name) {
+
+  }
+
   render() {
     return (
       <div>
