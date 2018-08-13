@@ -11,9 +11,9 @@ class Track extends React.Component {
 
   renderAction() {
     if (this.props.isRemoval === true) {
-      return <a className="Track-action" onClick={this.addTrack}>+</a>;
-    } else {
       return <a className="Track-action" onClick={this.removeTrack}>-</a>;
+    } else {
+      return <a className="Track-action" onClick={this.addTrack}>+</a>;
     }
   }
 
@@ -23,6 +23,10 @@ class Track extends React.Component {
 
   removeTrack() {
     this.props.onRemove(this.props.track);
+  }
+
+  updatePlaylistName(name) {
+
   }
 
   render() {
