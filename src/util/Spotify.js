@@ -11,6 +11,8 @@ const Spotify = {
       return accessToken;
     }
 
+    //if accessToken and expiration are in url save to vars
+    //else send a request to authorize
     const url = window.location.href;
     const urlToken = url.match(/access_token=([^&]*)/);
     const urlExpires = url.match(/expires_in=([^&]*)/);
