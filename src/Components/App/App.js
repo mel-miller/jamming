@@ -12,11 +12,8 @@ class App extends React.Component {
 
     this.state = {
       searchResults: [],
-      playlistName: 'My Music',
-      playlistTracks: [
-        {name:'Human Child', artist:'Belly', album:'Dove', id:'6kWgLukzuG475u02bSKLao'},
-        {name:'Slow Dog', artist:'Belly', album:'Star', id:'6kWgLukzuG475dddbSKLao'}
-      ]
+      playlistName: 'New Playlist',
+      playlistTracks: []
     };
 
     this.addTrack = this.addTrack.bind(this);
@@ -62,7 +59,7 @@ class App extends React.Component {
       <div>
         <h1>Ja<span className="highlight">mmm</span>ing</h1>
         <div className="App">
-          <SearchBar />
+          <SearchBar onSearch={this.search}/>
           <div className="App-playlist">
             <SearchResults
               searchResults={this.state.searchResults}
