@@ -70,6 +70,9 @@ const Spotify = {
       if (response.ok) {
         return response.json();
       }
+      throw new Error('Request failed!');
+    }, networkError => {
+      console.log(networkError.message);
     })
     //POST new playlist with the userId
     .then(jsonResponse => {
