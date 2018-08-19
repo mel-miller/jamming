@@ -43,6 +43,9 @@ const Spotify = {
       if (response.ok) {
         return response.json();
       }
+      throw new Error('Request failed!');
+    }, networkError => {
+      console.log(networkError.message);
     }).then(jsonResponse => {
       if (jsonResponse.tracks) {
         return jsonResponse.tracks.items.map(track => ({
