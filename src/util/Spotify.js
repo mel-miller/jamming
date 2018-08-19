@@ -33,82 +33,97 @@ const Spotify = {
     accessToken = Spotify.getAccessToken();
 
     const searchUrl = `https://api.spotify.com/v1/search?type=track&q=${term}`;
-    const headerObj = {headers: {Authorization: `Bearer ${accessToken}`}};
+    const headerObj = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    };
 
     return fetch(searchUrl, headerObj).then(response => {
       if (response.ok) {
         return response.json();
-      }}).then(jsonResponse => {
-       if (jsonResponse.tracks){
-         return jsonResponse.tracks.items.map(track => ({
-            id: track.id,
-            name : track.name,
-            artist: track.artists[0].name,
-            album: track.album.name,
-            uri: track.uri
-         }));
-       } else {
-         return [];
-       }
+      }
+    }).then(jsonResponse => {
+      if (jsonResponse.tracks) {
+        return jsonResponse.tracks.items.map(track => ({
+          id: track.id,
+          name: track.name,
+          artist: track.artists[0].name,
+          album: track.album.name,
+          uri: track.uri
+        }));
+      } else {
+        return [];
+      }
     })
   },
 
-  savePlaylist (playlistName, trackURIs) {
+  savePlaylist(playlistName, trackURIs) {
     if (!playlistName && !trackURIs.length) {
       return;
     }
 
     accessToken = Spotify.getAccessToken();
-    const headers = {Authorization: `Bearer ${accessToken}`};
+    const headers = {
+      Authorization: `Bearer ${accessToken}`
+    };
     const spotifyUserUrl = "https://api.spotify.com/v1/me";
     let userId;
     let playlistId;
 
     //GET current userId
-    return fetch(spotifyUserUrl, {headers: headers})
-    .then(response => {
-      if (response.ok) {
-        return response.json();
-      }
-      throw new Error('Request failed!');
-    }, networkError => {
-      console.log(networkError.message);
-    })
-    //POST new playlist with the userId
-    .then(jsonResponse => {
-      userId = jsonResponse.id;
-      const newPlaylistUrl = `https://api.spotify.com/v1/users/${userId}/playlists`;
-
-      return fetch(newPlaylistUrl, {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify({name: playlistName})
+    return fetch(spotifyUserUrl, {
+        headers: headers
       })
       .then(response => {
         if (response.ok) {
           return response.json();
         }
+        throw new Error('Request failed!');
+      }, networkError => {
+        console.log(networkError.message);
       })
-      //POST tracks to the playlist
+      //POST new playlist with the userId
       .then(jsonResponse => {
-        playlistId = jsonResponse.id;
-        const addTracksUrl =`https://api.spotify.com/v1/users/${userId}/playlists/${playlistId}/tracks`;
+        userId = jsonResponse.id;
+        const newPlaylistUrl = `https://api.spotify.com/v1/users/${userId}/playlists`;
 
-        return fetch(addTracksUrl, {
-          headers: headers,
-          method: 'POST',
-          body: JSON.stringify({uris: trackURIs})
-        })
-        .then(response => {
-          if (response.ok) {
-            return response.json();
-          }
-        })
+        return fetch(newPlaylistUrl, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify({
+              name: playlistName
+            })
+          })
+          .then(response => {
+            if (response.ok) {
+              return response.json();
+            }
+          })
+          //POST tracks to the playlist
+          .then(jsonResponse => {
+            playlistId = jsonResponse.id;
+            const addTracksUrl = `https://api.spotify.com/v1/users/${userId}/playlists/${playlistId}/tracks`;
 
+            return fetch(addTracksUrl, {
+                headers: headers,
+                method: 'POST',
+                body: JSON.stringify({
+                  uris: trackURIs
+                })
+              })
+              .then(response => {
+                if (response.ok) {
+                  return response.json();
+                }
+              })
+              .then(jsonResponse => {
+                playlistId = jsonResponse.id;
+              })
+          })
       })
-    })
 
-  }//end savePlaylist
+  } //end savePlaylist
 
 }
 
