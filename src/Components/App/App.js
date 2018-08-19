@@ -48,7 +48,7 @@ class App extends React.Component {
     Spotify.savePlaylist(this.state.playlistName, trackURIs)
     .then(() => {
       this.setState({
-        playlistName: 'New Playlist',
+        playlistName: 'Another New Playlist',
         playlistTracks: []
       });
     });
@@ -77,6 +77,7 @@ class App extends React.Component {
               playlistTracks={this.state.playlistTracks}
               onRemove={this.removeTrack}
               onNameChange={this.updatePlaylistName}
+              onSave={this.savePlaylist}
             />
           </div>
         </div>
