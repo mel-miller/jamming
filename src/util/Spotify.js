@@ -120,9 +120,7 @@ const Spotify = {
                   return response.json();
                 }
               })
-              .then(jsonResponse => {
-                playlistId = jsonResponse.id;
-              })
+
           })
       })
 
