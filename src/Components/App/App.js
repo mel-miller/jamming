@@ -27,7 +27,7 @@ class App extends React.Component {
       return;
     }
 
-    let tracks = this.state.playlistTracks;
+    let tracks = this.state.playlistTracks.slice();
     tracks.push(track);
     this.setState({playlistTracks: tracks});
   }
