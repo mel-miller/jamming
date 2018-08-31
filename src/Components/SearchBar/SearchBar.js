@@ -31,7 +31,7 @@ class SearchBar extends React.Component {
   render() {
     return (<div className="SearchBar">
       <input onChange={this.handleTermChange} onKeyPress={this.handleKeyPress} placeholder="Enter A Song, Album, or Artist"/>
-      <a onClick={this.search} onKeyPress={this.handleKeyPress} tabindex="0">SEARCH</a>
+      <button onClick={this.search}>SEARCH</button>
     </div>);
   }
 }
